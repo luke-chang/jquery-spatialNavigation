@@ -1,7 +1,7 @@
 /*
  * A javascript-based implementation of Spatial Navigation.
  *
- * Copyright (c) 2022 Luke Chang.
+ * Forked from
  * https://github.com/luke-chang/js-spatial-navigation
  *
  * Licensed under the MPL 2.0.
@@ -32,19 +32,18 @@
     restrict: 'self-first', // 'self-first', 'self-only', 'none'
     tabIndexIgnoreList:
       'a, input, select, textarea, button, iframe, [contentEditable=true]',
-    navigableFilter: null
+    navigableFilter: null,
+    keyMapping: {
+      'ArrowLeft': 'left',
+      'ArrowUp': 'up',
+      'ArrowRight': 'right',
+      'ArrowDown': 'down'
+    }
   };
 
   /*********************/
   /* Constant Variable */
   /*********************/
-  var KEYMAPPING = {
-    '37': 'left',
-    '38': 'up',
-    '39': 'right',
-    '40': 'down'
-  };
-
   var REVERSE = {
     'left': 'right',
     'up': 'down',
@@ -851,9 +850,10 @@
       return false;
     };
 
-    var direction = KEYMAPPING[evt.keyCode];
+    var direction = GlobalConfig.keyMapping[evt.key] ||
+        GlobalConfig.keyMapping[evt.keyCode];
     if (!direction) {
-      if (evt.keyCode == 13) {
+      if (evt.key == 'Enter' || evt.keyCode == 13) {
         currentFocusedElement = getCurrentFocusedElement();
         if (currentFocusedElement && getSectionId(currentFocusedElement)) {
           if (!fireEvent(currentFocusedElement, 'enter-down')) {
@@ -898,7 +898,7 @@
     if (evt.altKey || evt.ctrlKey || evt.metaKey || evt.shiftKey) {
       return;
     }
-    if (!_pause && _sectionCount && evt.keyCode == 13) {
+    if (!_pause && _sectionCount && (evt.key == 'Enter' || evt.keyCode == 13)) {
       var currentFocusedElement = getCurrentFocusedElement();
       if (currentFocusedElement && getSectionId(currentFocusedElement)) {
         if (!fireEvent(currentFocusedElement, 'enter-up')) {

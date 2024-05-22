@@ -20,7 +20,7 @@ Examples
 
 ```html
 <head>
-  <script src="https://luke-chang.github.io/js-spatial-navigation/spatial_navigation.js"></script>
+  <script src="https://christowiz.github.io/js-spatial-navigation/spatial_navigation.js"></script>
   <script>
     window.addEventListener('load', function() {
       // Initialize
@@ -60,7 +60,7 @@ Although SpatialNavigation is a standalone (pure-javascript-based) library, it c
 ```html
 <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script>
-  $.getScript('https://luke-chang.github.io/js-spatial-navigation/spatial_navigation.js', function() {
+  $.getScript('https://christowiz.github.io/js-spatial-navigation/spatial_navigation.js', function() {
     $('a, .focusable')
       .SpatialNavigation()
       .focus(function() { $(this).css('outline', '2px solid red'); })
@@ -73,7 +73,7 @@ Although SpatialNavigation is a standalone (pure-javascript-based) library, it c
 
 ### More Demonstrations
 
-+ [Demonstrations](https://luke-chang.github.io/js-spatial-navigation/demo/)
++ [Demonstrations](https://christowiz.github.io/js-spatial-navigation/demo/)
 
 Documentation
 -------------
@@ -194,7 +194,13 @@ Following is an example with default values.
   leaveFor: null,
   restrict: 'self-first',
   tabIndexIgnoreList: 'a, input, select, textarea, button, iframe, [contentEditable=true]',
-  navigableFilter: null
+  navigableFilter: null,
+  keyMapping: {
+    '37': 'left',
+    '38': 'up',
+    '39': 'right',
+    '40': 'down'
+  }
 }
 ```
 
@@ -240,7 +246,7 @@ When it is `true`, elements defined in this section are unnavigable. This proper
   + Type: [Selector](#selector-1) (without @ syntax)
   + Default: `''`
 
-When a section is specified to be the next focused target, e.g. [`focus('some-section-id')`](#spatialnavigationfocussectionidselector-silent) is called, the first navigable element matching `defaultElement` within this section will be chosen first.
+When a section is specified to be the next focused target, e.g. [`focus('some-section-id')`](#spatialnavigationfocussectionidselector-silent) is called, the first element matching `defaultElement` within this section will be chosen first.
 
 #### `enterTo`
 
@@ -292,6 +298,20 @@ Elements matching `tabIndexIgnoreList` will never be affected by [`makeFocusable
 A callback function that accepts a DOM element as the first argument.
 
 SpatialNavigation calls this function every time when it tries to traverse every single candidate. You can ignore arbitrary elements by returning `false`.
+
+#### `keyMapping`
+
+  + Type: Object
+  + Default: `{
+    '37': 'left',
+    '38': 'up',
+    '39': 'right',
+    '40': 'down'
+  }`
+
+An object defining which keys to be used for navigation. Arrow keys are defined by default.
+
+**Note:** This configuration can only be defined for the global scope. The definition of different key mappings within sections are going to be ignored.
 
 ### Custom Attributes
 
@@ -446,4 +466,4 @@ Chrome 5, Firefox 12, IE 9, Opera 11.5, Safari 5
 License
 -------
 
-Copyright (c) 2022 Luke Chang. Licensed under the MPL 2.0.
+Licensed under the MPL 2.0.
