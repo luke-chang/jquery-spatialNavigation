@@ -579,8 +579,11 @@
     if (arguments.length < 4) {
       cancelable = true;
     }
-    var evt = document.createEvent('CustomEvent');
-    evt.initCustomEvent(EVENT_PREFIX + type, true, cancelable, details);
+    const evt = new CustomEvent(EVENT_PREFIX + type, {
+      bubbles: true,
+      cancelable: cancelable,
+      detail: details
+    })
     return elem.dispatchEvent(evt);
   }
 
